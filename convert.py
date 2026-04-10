@@ -3,8 +3,8 @@ import urllib.parse
 import time
 import os
 
-SOURCE = "https://your-proxy.onrender.com/fetch?url=http://filex.homes/get.php?username=1month&password=1month&type=m3u_plus"
-PROXY = "https://your-proxy.onrender.com/m3u8?url="
+SOURCE = "https://sdtv-proxy.onrender.com/fetch?url=http://filex.homes/get.php?username=1month&password=1month&type=m3u_plus"
+PROXY = "https://sdtv-proxy.onrender.com/m3u8?url="
 
 def fetch():
     for i in range(3):
