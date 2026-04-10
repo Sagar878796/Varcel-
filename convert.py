@@ -1,28 +1,11 @@
 import requests
-import urllib.parse
-import time
-import os
 
-SOURCE = "https://sdtv-proxy.onrender.com/fetch?url=http://filex.homes/get.php?username=1month&password=1month&type=m3u_plus"
-PROXY = "https://sdtv-proxy.onrender.com/m3u8?url="
+SOURCE = "http://filex.homes/get.php?username=1month&password=1month&type=m3u_plus"
+PROXY = "https://sdtv-proxy.onrender.com"
 
-def fetch():
-    for i in range(3):
-        try:
-            res = requests.get(SOURCE, timeout=15)
-            if res.status_code == 200 and "#EXTM3U" in res.text:
-                return res.text
-        except:
-            time.sleep(5)
-    return None
+res = requests.get(SOURCE)
+lines = res.text.splitlines()
 
-data = fetch()
-
-if not data:
-    print("Using old playlist")
-    exit()
-
-lines = data.splitlines()
 clean = ["#EXTM3U"]
 
 for i in range(len(lines)):
@@ -30,8 +13,8 @@ for i in range(len(lines)):
         name = lines[i].split(",")[-1]
         stream = lines[i+1]
 
-        encoded = urllib.parse.quote(stream, safe='')
-        proxy_stream = PROXY + encoded
+        # 🔥 IMPORTANT CHANGE
+        proxy_stream = f"{PROXY}/m3u8?url={stream}"
 
         clean.append(f'#EXTINF:-1,{name}')
         clean.append(proxy_stream)
@@ -39,4 +22,4 @@ for i in range(len(lines)):
 with open("playlist.m3u", "w", encoding="utf-8") as f:
     f.write("\n".join(clean))
 
-print("Done")
+print("✅ FINAL WORKING M3U READY")
